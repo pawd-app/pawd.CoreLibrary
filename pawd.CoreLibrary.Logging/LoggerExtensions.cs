@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace pawd.CoreLibrary.Logging
 {
+
     public static class LoggerExtensions
     {
         public static void LogWithCallerInfo(
