@@ -4,6 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageId>pawd.corelibrary.logging</PackageId>
+	<Version>1.0.0</Version>
+	<Authors>pawd devs</Authors>
+	<Description>core logging.</Description>
   </PropertyGroup>
 
   <ItemGroup>
