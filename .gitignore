@@ -1,2 +1,5 @@
 /pawd.CoreLibrary/.vs
 /pawd.CoreLibrary/obj
+/.vs
+/obj
+/pawd.CoreLibrary.Logging/obj
