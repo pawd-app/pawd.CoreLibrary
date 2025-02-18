@@ -31,6 +31,6 @@ jobs:
         run: |
           dotnet nuget push ./artifacts/*.nupkg \
             --source "https://nuget.pkg.github.com/pawd-app/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }}
+            --api-key ${{ secrets.TOKEN }}
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_AUTH_TOKEN: ${{ secrets.TOKEN }}
