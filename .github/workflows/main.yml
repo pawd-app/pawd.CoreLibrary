@@ -1,0 +1,36 @@
+name: Build and Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # Replace with your .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Release
+
+      - name: Pack the project
+        run: dotnet pack --configuration Release --output ./artifacts
+
+      - name: Publish to GitHub Packages
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --source "https://nuget.pkg.github.com/pawd-app/index.json" \
+            --api-key ${{ secrets.GITHUB_TOKEN }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
