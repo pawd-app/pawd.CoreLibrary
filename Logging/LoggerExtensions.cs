@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 
 namespace pawd.CoreLibrary.Logging
 {
-
     public static class LoggerExtensions
     {
         public static void LogWithCallerInfo(
@@ -33,6 +32,8 @@ namespace pawd.CoreLibrary.Logging
                 case LogLevel.Critical:
                     logger.Fatal(logMessage);
                     break;
+                case LogLevel.Trace:
+                case LogLevel.None:
                 default:
                     logger.Information(logMessage);
                     break;

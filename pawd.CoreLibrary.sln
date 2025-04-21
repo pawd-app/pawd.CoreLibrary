@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary", "pawd.CoreLibrary.Logging/pawd.CoreLibrary.Logging.csproj", "{64FBF340-F137-44E7-8706-3F26D9F3B179}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary", "Logging/pawd.CoreLibrary.Logging.csproj", "{64FBF340-F137-44E7-8706-3F26D9F3B179}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary.HalForms", "HalForms\pawd.CoreLibrary.HalForms.csproj", "{FD67F305-A3A2-4F9B-9DD0-AF3A42C0128A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{64FBF340-F137-44E7-8706-3F26D9F3B179}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64FBF340-F137-44E7-8706-3F26D9F3B179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64FBF340-F137-44E7-8706-3F26D9F3B179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD67F305-A3A2-4F9B-9DD0-AF3A42C0128A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD67F305-A3A2-4F9B-9DD0-AF3A42C0128A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD67F305-A3A2-4F9B-9DD0-AF3A42C0128A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD67F305-A3A2-4F9B-9DD0-AF3A42C0128A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
