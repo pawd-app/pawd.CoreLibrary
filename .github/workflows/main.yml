@@ -1,4 +1,4 @@
-name: Build and Publish NuGet Package
+name: Build and Publish NuGet Packages
 
 on:
   push:
@@ -17,21 +17,28 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'  # Replace with your .NET version
+          dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
+      - name: Restore all projects
         run: dotnet restore
 
-      - name: Build the project
+      - name: Build all projects
         run: dotnet build --configuration Release
 
-      - name: Pack the project
-        run: dotnet pack --configuration Release --output ./artifacts
+      - name: Pack Logging library
+        run: dotnet pack Logging/pawd.CoreLibrary.Logging.csproj --configuration Release --output ./artifacts
 
-      - name: Publish to GitHub Packages
+      - name: Pack HALForms library
+        run: dotnet pack HALForms/pawd.CoreLibrary.HalForms.csproj --configuration Release --output ./artifacts
+
+      - name: Publish packages to GitHub Packages
         run: |
-          dotnet nuget push ./artifacts/*.nupkg \
-            --source "https://nuget.pkg.github.com/pawd-app/index.json" \
-            --api-key ${{ secrets.TOKEN }}
+          for file in ./artifacts/*.nupkg; do
+            echo "Pushing $file..."
+            dotnet nuget push "$file" \
+              --source "https://nuget.pkg.github.com/pawd-app/index.json" \
+              --api-key ${{ secrets.TOKEN }} \
+              --skip-duplicate
+          done
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.TOKEN }}
