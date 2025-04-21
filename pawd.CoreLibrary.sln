@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary", "Logging\pawd.CoreLibrary.Logging.csproj", "{64FBF340-F137-44E7-8706-3F26D9F3B179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary.HalForms", "HalForms\pawd.CoreLibrary.HalForms.csproj", "{F3621C1A-5F2A-4C53-85BD-6A2EE1A28729}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary.HalForms", "HALForms\pawd.CoreLibrary.HalForms.csproj", "{F3621C1A-5F2A-4C53-85BD-6A2EE1A28729}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
