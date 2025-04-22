@@ -7,7 +7,7 @@
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>pawd.corelibrary.logging</PackageId>
 	<Version>1.0.0</Version>
-	<Authors>pawd devs</Authors>
+	<Authors>pawd</Authors>
 	<Description>core logging.</Description>
     <RepositoryUrl>https://github.com/pawd-app/pawd.CoreLibrary</RepositoryUrl>
   </PropertyGroup>
