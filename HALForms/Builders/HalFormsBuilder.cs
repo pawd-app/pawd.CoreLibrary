@@ -11,6 +11,8 @@ public class HalFormsBuilder
     private readonly HalFormsDocument _document = new();
     
     private readonly Dictionary<string, object> _rootProperties = new();
+    
+    private readonly Dictionary<string, Dictionary<string, string[]>> _errors = new();
 
     /// <summary>
     /// Adds a custom property to the root of the HAL-FORMS document.
@@ -63,6 +65,18 @@ public class HalFormsBuilder
         _document.Embedded[rel] = resource;
         return this;
     }
+    
+    /// <summary>
+    /// Adds any errors to the HAL-FORMS document.
+    /// </summary>
+    /// <param name="templateName">The template name the errors apply to</param>
+    /// <param name="errors">The errors associated with this template.</param>
+    /// <returns>The builder instance for chaining.</returns>
+    public HalFormsBuilder WithErrors(string templateName, Dictionary<string, string[]> errors)
+    {
+        _errors[templateName] = errors;
+        return this;
+    }
 
     /// <summary>
     /// Finalizes and builds the configured <see cref="HalFormsDocument"/> instance.
@@ -74,6 +88,12 @@ public class HalFormsBuilder
         {
             _document.Properties[prop.Key] = prop.Value;
         }
+        
+        if (_errors.Count != 0)
+        {
+            _document.Properties["_errors"] = _errors;
+        }
+        
         return _document;
     }
 }
