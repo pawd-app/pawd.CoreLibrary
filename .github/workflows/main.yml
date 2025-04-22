@@ -32,6 +32,9 @@ jobs:
       - name: Clean all projects
         run: dotnet clean
 
+      - name: Build all projects
+        run: dotnet build --configuration Release
+
       - name: Pack projects with auto-incremented version
         run: |
           VERSION="1.0.${{ github.run_number }}"
@@ -39,6 +42,7 @@ jobs:
           for proj in $(find . -name '*.csproj'); do
             dotnet pack "$proj" \
               --configuration Release \
+              --no-build \
               -p:PackageVersion=$VERSION \
               --output ./artifacts
           done
