@@ -38,13 +38,22 @@ jobs:
               --output ./artifacts
           done
 
-      - name: Publish to GitHub Packages
+      - name: Publish to GitHub Packages and NuGet.org
         run: |
           for nupkg in ./artifacts/*.nupkg; do
-            echo "Publishing $nupkg"
+            echo "Publishing $nupkg to GitHub Packages"
             dotnet nuget push "$nupkg" \
               --source "https://nuget.pkg.github.com/pawd-app/index.json" \
-              --api-key ${{ secrets.TOKEN }}
+              --api-key ${{ secrets.TOKEN }} \
+              --skip-duplicate
+
+            echo "Publishing $nupkg to NuGet.org"
+            dotnet nuget push "$nupkg" \
+              --source "https://api.nuget.org/v3/index.json" \
+              --api-key ${{ secrets.NUGET_ORG_API_KEY }} \
+              --skip-duplicate
           done
+
+          
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.TOKEN }}
