@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <RepositoryUrl>https://github.com/pawd-app/pawd.CoreLibrary</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageId>pawd.corelibrary.HALForms</PackageId>
+        <PackageId>pawd.CoreLibrary.HalForms</PackageId>
         <Version>1.0.0</Version>
         <Authors>pawd</Authors>
         <Description>A lightweight, strongly-typed, and fluent builder for working with HAL-FORMS in .NET.
