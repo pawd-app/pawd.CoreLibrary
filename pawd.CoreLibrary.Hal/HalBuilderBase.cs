@@ -2,54 +2,55 @@ using pawd.CoreLibrary.Hal.Models;
 
 namespace pawd.CoreLibrary.Hal;
 
-public abstract class HalBuilderBase<T> where T : class
+public abstract class HalBuilderBase<T> where T : HalDocument
 {
-    protected readonly T _document;
-    private readonly Dictionary<string, object> _properties = new();
-    
+    protected readonly T Document;
+
+    protected readonly Dictionary<string, object> RootProperties = new();
+
     public abstract T Build();
 
     protected HalBuilderBase(T document)
     {
-        _document = document;
+        Document = document;
     }
 
+    /// <summary>
+    /// Adds a link to the HAL document.
+    /// </summary>
+    /// <param name="rel">The link relation (rel).</param>
+    /// <param name="href">The hyperlink reference (href).</param>
+    /// <param name="title">An optional human-readable title for the link.</param>
+    /// <param name="templated">Indicates if the href is a URI template.</param>
+    /// <returns>The builder instance for chaining.</returns>
     public HalBuilderBase<T> WithLink(string rel, string href, string? title = null, bool templated = false)
     {
-        if (_document is IHasLinks hasLinks)
-        {
-            hasLinks.Links[rel] = new HalLink { Href = href, Title = title, Templated = templated };
-        }
+        Document.Links[rel] = new HalLink { Href = href, Title = title!, Templated = templated };
         return this;
     }
 
+    
+    /// <summary>
+    /// Adds an embedded resource to the HAL document.
+    /// </summary>
+    /// <param name="rel">The relation name (rel) for the embedded resource.</param>
+    /// <param name="resource">The resource to embed.</param>
+    /// <returns>The builder instance for chaining.</returns>
     public HalBuilderBase<T> WithEmbedded(string rel, object resource)
     {
-        if (_document is IHasEmbedded hasEmbedded)
-        {
-            hasEmbedded.Embedded[rel] = resource;
-        }
+        Document.Embedded[rel] = resource;
         return this;
     }
 
+    /// <summary>
+    /// Adds a custom property to the root of the HAL-FORMS document.
+    /// </summary>
+    /// <param name="name">The name of the property.</param>
+    /// <param name="value">The value of the property.</param>
+    /// <returns>The builder instance for chaining.</returns>
     public HalBuilderBase<T> WithProperty(string name, object value)
     {
-        _properties[name] = value;
+        RootProperties[name] = value;
         return this;
     }
-
-    protected void ApplyProperties()
-    {
-        if (_document is IHasProperties hasProps)
-        {
-            foreach (var prop in _properties)
-            {
-                hasProps.Properties[prop.Key] = prop.Value;
-            }
-        }
-    }
 }
-
-public interface IHasLinks { Dictionary<string, HalLink> Links { get; } }
-public interface IHasEmbedded { Dictionary<string, object> Embedded { get; } }
-public interface IHasProperties { Dictionary<string, object> Properties { get; } }

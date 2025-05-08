@@ -7,9 +7,17 @@ public sealed class HalBuilder : HalBuilderBase<HalDocument>
 {
     public HalBuilder() : base(new HalDocument()) { }
 
+    /// <summary>
+    /// Finalizes and builds the configured <see cref="HalDocument"/> instance.
+    /// </summary>
+    /// <returns>The constructed <see cref="HalDocument"/>.</returns>
     public override HalDocument Build()
     {
-        ApplyProperties();
-        return _document;
+        foreach (var prop in RootProperties)
+        {
+            Document.Properties[prop.Key] = prop.Value;
+        }
+        
+        return Document;
     }
 }

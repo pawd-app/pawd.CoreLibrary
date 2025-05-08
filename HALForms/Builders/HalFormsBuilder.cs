@@ -23,7 +23,7 @@ public class HalFormsBuilder : HalBuilderBase<HalFormsDocument>
     {
         var templateBuilder = new HalFormTemplateBuilder();
         configure(templateBuilder);
-        _document.Templates[name] = templateBuilder.Build();
+        Document.Templates[name] = templateBuilder.Build();
         return this;
     }
     
@@ -39,13 +39,22 @@ public class HalFormsBuilder : HalBuilderBase<HalFormsDocument>
         return this;
     }
 
+    /// <summary>
+    /// Finalizes and builds the configured <see cref="HalFormsDocument"/> instance.
+    /// </summary>
+    /// <returns>The constructed <see cref="HalFormsDocument"/>.</returns>
     public override HalFormsDocument Build()
     {
-        ApplyProperties();
-        if (_errors.Count > 0)
+        foreach (var prop in RootProperties)
         {
-            _document.Properties["_errors"] = _errors;
+            Document.Properties[prop.Key] = prop.Value;
         }
-        return _document;
+        
+        if (_errors.Count != 0)
+        {
+            Document.Properties["_errors"] = _errors;
+        }
+        
+        return Document;
     }
 }
