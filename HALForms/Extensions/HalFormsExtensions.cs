@@ -103,8 +103,11 @@ public static class HalFormsExtensions
                     if (attribute.Required)
                         propBuilder.IsRequired();
                 
-                    if (attribute.Options != null)
-                        propBuilder.WithOptions(attribute.Options);
+                    var options = attribute.GetResolvedOptions(prop.DeclaringType ?? typeof(T));
+                    if (options.Any())
+                    {
+                        propBuilder.WithOptions(options.ToArray());
+                    }
                 });
             }
         });
