@@ -39,7 +39,7 @@ public class HalFormsBuilder : HalBuilderBase<HalFormsDocument>
         return this;
     }
 
-    public new HalFormsDocument Build()
+    public override HalFormsDocument Build()
     {
         ApplyProperties();
         if (_errors.Count > 0)

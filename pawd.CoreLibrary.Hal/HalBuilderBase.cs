@@ -6,13 +6,14 @@ public abstract class HalBuilderBase<T> where T : class
 {
     protected readonly T _document;
     private readonly Dictionary<string, object> _properties = new();
+    
+    public abstract T Build();
 
     protected HalBuilderBase(T document)
     {
         _document = document;
     }
 
-    // Common HAL methods
     public HalBuilderBase<T> WithLink(string rel, string href, string? title = null, bool templated = false)
     {
         if (_document is IHasLinks hasLinks)

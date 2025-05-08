@@ -7,7 +7,7 @@ public sealed class HalBuilder : HalBuilderBase<HalDocument>
 {
     public HalBuilder() : base(new HalDocument()) { }
 
-    public HalDocument Build()
+    public override HalDocument Build()
     {
         ApplyProperties();
         return _document;
