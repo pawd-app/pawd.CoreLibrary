@@ -7,35 +7,51 @@ namespace pawd.CoreLibrary.Logging
     {
         public static void LogWithCallerInfo(
             this Serilog.ILogger logger,
-            string message,
+            string messageTemplate,
+            LogLevel level,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] propertyValues)
+        {
+            LogWithCallerInfo(logger, messageTemplate, level, propertyValues, filePath, lineNumber, memberName);
+        }
+        
+        public static void LogWithCallerInfo(
+            this Serilog.ILogger logger,
+            string messageTemplate,
             LogLevel level = LogLevel.Information,
+            object[]? propertyValues = null,
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string memberName = "")
         {
-            var logMessage = $"[{Path.GetFileName(filePath)}:{lineNumber} - {memberName}] {message}";
+            var prefix = $"[{Path.GetFileName(filePath)}:{lineNumber} - {memberName}] ";
+            var fullMessageTemplate = prefix + messageTemplate;
+
+            propertyValues ??= [];
 
             switch (level)
             {
+                case LogLevel.Trace:
                 case LogLevel.Debug:
-                    logger.Debug(logMessage);
+                    logger.Debug(fullMessageTemplate, propertyValues);
                     break;
                 case LogLevel.Information:
-                    logger.Information(logMessage);
+                    logger.Information(fullMessageTemplate, propertyValues);
                     break;
                 case LogLevel.Warning:
-                    logger.Warning(logMessage);
+                    logger.Warning(fullMessageTemplate, propertyValues);
                     break;
                 case LogLevel.Error:
-                    logger.Error(logMessage);
+                    logger.Error(fullMessageTemplate, propertyValues);
                     break;
                 case LogLevel.Critical:
-                    logger.Fatal(logMessage);
+                    logger.Fatal(fullMessageTemplate, propertyValues);
                     break;
-                case LogLevel.Trace:
                 case LogLevel.None:
                 default:
-                    logger.Information(logMessage);
+                    logger.Information(fullMessageTemplate, propertyValues);
                     break;
             }
         }
