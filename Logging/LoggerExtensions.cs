@@ -3,57 +3,95 @@ using System.Runtime.CompilerServices;
 
 namespace pawd.CoreLibrary.Logging
 {
+    using System;
+    using System.IO;
+    using System.Runtime.CompilerServices;
+    using Serilog;
+
     public static class LoggerExtensions
     {
-        public static void LogWithCallerInfo(
-            this Serilog.ILogger logger,
+        private static string FormatMessageTemplate(
             string messageTemplate,
-            LogLevel level,
+            string filePath,
+            int lineNumber,
+            string memberName)
+        {
+            var prefix = $"[{Path.GetFileName(filePath)}:{lineNumber} - {memberName}] ";
+            return prefix + messageTemplate;
+        }
+
+        public static void LogErrorWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            Exception? exception = null,
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string memberName = "",
-            params object[] propertyValues)
+            params object[] args)
         {
-            LogWithCallerInfo(logger, messageTemplate, level, propertyValues, filePath, lineNumber, memberName);
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            if (exception != null)
+                logger.Error(exception, msg, args);
+            else
+                logger.Error(msg, args);
         }
-        
-        public static void LogWithCallerInfo(
-            this Serilog.ILogger logger,
+
+        public static void LogWarningWithCallerInfo(this ILogger logger,
             string messageTemplate,
-            LogLevel level = LogLevel.Information,
-            object[]? propertyValues = null,
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string memberName = "")
+            [CallerMemberName] string memberName = "",
+            params object[] args)
         {
-            var prefix = $"[{Path.GetFileName(filePath)}:{lineNumber} - {memberName}] ";
-            var fullMessageTemplate = prefix + messageTemplate;
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Warning(msg, args);
+        }
 
-            propertyValues ??= [];
+        public static void LogInformationWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Information(msg, args);
+        }
 
-            switch (level)
-            {
-                case LogLevel.Trace:
-                case LogLevel.Debug:
-                    logger.Debug(fullMessageTemplate, propertyValues);
-                    break;
-                case LogLevel.Information:
-                    logger.Information(fullMessageTemplate, propertyValues);
-                    break;
-                case LogLevel.Warning:
-                    logger.Warning(fullMessageTemplate, propertyValues);
-                    break;
-                case LogLevel.Error:
-                    logger.Error(fullMessageTemplate, propertyValues);
-                    break;
-                case LogLevel.Critical:
-                    logger.Fatal(fullMessageTemplate, propertyValues);
-                    break;
-                case LogLevel.None:
-                default:
-                    logger.Information(fullMessageTemplate, propertyValues);
-                    break;
-            }
+        public static void LogDebugWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Debug(msg, args);
+        }
+
+        public static void LogCriticalWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            Exception? exception = null,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            if (exception != null)
+                logger.Fatal(exception, msg, args);
+            else
+                logger.Fatal(msg, args);
+        }
+
+        public static void LogTraceWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Verbose(msg, args);
         }
     }
 }
