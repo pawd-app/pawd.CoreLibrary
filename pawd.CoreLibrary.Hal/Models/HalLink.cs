@@ -1,4 +1,4 @@
-namespace pawd.CoreLibrary.HalForms.Models;
+namespace pawd.CoreLibrary.Hal.Models;
 
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -12,7 +12,7 @@ public sealed class HalLink
     /// Gets or sets the target URI of the link. This is the primary reference to another resource.
     /// </summary>
     /// <remarks>
-    /// Corresponds to the "href" property in a HAL-FORMS link object.
+    /// Corresponds to the "href" property in a HAL link object.
     /// </remarks>
     [JsonPropertyName("href")]
     public string Href { get; set; }
@@ -22,7 +22,7 @@ public sealed class HalLink
     /// </summary>
     /// <remarks>
     /// If true, the client may need to substitute variables into the URI. Optional.
-    /// Corresponds to the "templated" property in a HAL-FORMS link object.
+    /// Corresponds to the "templated" property in a HAL link object.
     /// </remarks>
     [JsonPropertyName("templated")]
     public bool? Templated { get; set; }
@@ -32,7 +32,7 @@ public sealed class HalLink
     /// </summary>
     /// <remarks>
     /// This value is primarily intended for documentation or UI display purposes.
-    /// Corresponds to the "title" property in a HAL-FORMS link object.
+    /// Corresponds to the "title" property in a HAL link object.
     /// </remarks>
     [JsonPropertyName("title")]
     public string Title { get; set; }

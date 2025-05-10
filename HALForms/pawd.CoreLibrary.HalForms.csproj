@@ -13,4 +13,7 @@
       <PackageReference Include="Ardalis.SmartEnum" Version="8.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\pawd.CoreLibrary.Hal\pawd.CoreLibrary.Hal.csproj" />
+    </ItemGroup>
 </Project>

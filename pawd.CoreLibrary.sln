@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary", "Logging
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary.HalForms", "HALForms\pawd.CoreLibrary.HalForms.csproj", "{F3621C1A-5F2A-4C53-85BD-6A2EE1A28729}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pawd.CoreLibrary.Hal", "pawd.CoreLibrary.Hal\pawd.CoreLibrary.Hal.csproj", "{B9A3B002-0D05-4AAC-80C7-9EA75FFD1B30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F3621C1A-5F2A-4C53-85BD-6A2EE1A28729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3621C1A-5F2A-4C53-85BD-6A2EE1A28729}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3621C1A-5F2A-4C53-85BD-6A2EE1A28729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A3B002-0D05-4AAC-80C7-9EA75FFD1B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A3B002-0D05-4AAC-80C7-9EA75FFD1B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A3B002-0D05-4AAC-80C7-9EA75FFD1B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A3B002-0D05-4AAC-80C7-9EA75FFD1B30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
