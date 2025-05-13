@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Runtime.CompilerServices;
-
-namespace pawd.CoreLibrary.Logging
+﻿namespace pawd.CoreLibrary.Logging
 {
     using System;
     using System.IO;
