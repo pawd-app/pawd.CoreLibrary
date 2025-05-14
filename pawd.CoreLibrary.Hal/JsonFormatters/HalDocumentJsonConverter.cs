@@ -14,17 +14,11 @@ public class HalDocumentJsonConverter : JsonConverter<HalDocument>
     {
         writer.WriteStartObject();
 
-        if (value.Links is { Count: > 0 })
-        {
-            writer.WritePropertyName("_links");
-            JsonSerializer.Serialize(writer, value.Links, options);
-        }
+        writer.WritePropertyName("_links");
+        JsonSerializer.Serialize(writer, value.Links, options);
 
-        if (value.Embedded is { Count: > 0 })
-        {
-            writer.WritePropertyName("_embedded");
-            JsonSerializer.Serialize(writer, value.Embedded, options);
-        }
+        writer.WritePropertyName("_embedded");
+        JsonSerializer.Serialize(writer, value.Embedded, options);
 
         var keyPolicy = options.DictionaryKeyPolicy ?? JsonNamingPolicy.CamelCase;
         foreach (var kv in value.Properties)
