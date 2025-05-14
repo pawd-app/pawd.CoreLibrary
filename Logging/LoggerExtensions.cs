@@ -1,43 +1,94 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Runtime.CompilerServices;
-
-namespace pawd.CoreLibrary.Logging
+﻿namespace pawd.CoreLibrary.Logging
 {
+    using System;
+    using System.IO;
+    using System.Runtime.CompilerServices;
+    using Serilog;
+
     public static class LoggerExtensions
     {
-        public static void LogWithCallerInfo(
-            this Serilog.ILogger logger,
-            string message,
-            LogLevel level = LogLevel.Information,
+        private static string FormatMessageTemplate(
+            string messageTemplate,
+            string filePath,
+            int lineNumber,
+            string memberName)
+        {
+            var prefix = $"[{Path.GetFileName(filePath)}:{lineNumber} - {memberName}] ";
+            return prefix + messageTemplate;
+        }
+
+        public static void LogErrorWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            Exception? exception = null,
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0,
-            [CallerMemberName] string memberName = "")
+            [CallerMemberName] string memberName = "",
+            params object[] args)
         {
-            var logMessage = $"[{Path.GetFileName(filePath)}:{lineNumber} - {memberName}] {message}";
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            if (exception != null)
+                logger.Error(exception, msg, args);
+            else
+                logger.Error(msg, args);
+        }
 
-            switch (level)
-            {
-                case LogLevel.Debug:
-                    logger.Debug(logMessage);
-                    break;
-                case LogLevel.Information:
-                    logger.Information(logMessage);
-                    break;
-                case LogLevel.Warning:
-                    logger.Warning(logMessage);
-                    break;
-                case LogLevel.Error:
-                    logger.Error(logMessage);
-                    break;
-                case LogLevel.Critical:
-                    logger.Fatal(logMessage);
-                    break;
-                case LogLevel.Trace:
-                case LogLevel.None:
-                default:
-                    logger.Information(logMessage);
-                    break;
-            }
+        public static void LogWarningWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Warning(msg, args);
+        }
+
+        public static void LogInformationWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Information(msg, args);
+        }
+
+        public static void LogDebugWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Debug(msg, args);
+        }
+
+        public static void LogCriticalWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            Exception? exception = null,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            if (exception != null)
+                logger.Fatal(exception, msg, args);
+            else
+                logger.Fatal(msg, args);
+        }
+
+        public static void LogTraceWithCallerInfo(this ILogger logger,
+            string messageTemplate,
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string memberName = "",
+            params object[] args)
+        {
+            var msg = FormatMessageTemplate(messageTemplate, filePath, lineNumber, memberName);
+            logger.Verbose(msg, args);
         }
     }
 }
