@@ -3,3 +3,5 @@
 /.vs
 /obj
 /pawd.CoreLibrary.Logging/obj
+*/obj
+*/bin
