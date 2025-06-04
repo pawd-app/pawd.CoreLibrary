@@ -69,7 +69,7 @@ namespace pawd.CoreLibrary.JobRabbitMqBridge
                     if (_channel != null)
                         await _channel.DisposeAsync();
 
-                    _channel = await _connection.CreateChannelAsync();
+                    _channel = await _connection.CreateChannelAsync(cancellationToken: ct);
                     await ConfigureChannelAsync(_channel, ct);
                 }
                 return _channel;

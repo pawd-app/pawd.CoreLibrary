@@ -1,20 +1,21 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Serilog;
 using pawd.CoreLibrary.JobRabbitMqBridge.Exceptions;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
+using pawd.CoreLibrary.Logging;
 
 public class RabbitMqMessagePublisher : IRabbitMqMessagePublisher, IAsyncDisposable
 {
     private readonly IConnection _connection;
     private IChannel? _channel;
-    private readonly ILogger<RabbitMqMessagePublisher> _logger;
+    private readonly ILogger _logger;
     private readonly SemaphoreSlim _channelLock = new(1, 1);
     private bool _disposed;
 
     public RabbitMqMessagePublisher(
         IConnection connection,
-        ILogger<RabbitMqMessagePublisher> logger)
+        ILogger logger)
     {
         _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -52,7 +53,7 @@ public class RabbitMqMessagePublisher : IRabbitMqMessagePublisher, IAsyncDisposa
         {
             if (args.Initiator != ShutdownInitiator.Application)
             {
-                _logger.LogWarning("Channel shutdown: {ReplyText}", args.ReplyText);
+                _logger.LogWarningWithCallerInfo("Channel shutdown: {ReplyText}", args.ReplyText);
                 await TryRecoverChannelAsync();
             }
         };
@@ -77,7 +78,7 @@ public class RabbitMqMessagePublisher : IRabbitMqMessagePublisher, IAsyncDisposa
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to recover channel");
+            _logger.LogErrorWithCallerInfo("Failed to recover channel", ex);
         }
         finally
         {
@@ -120,12 +121,14 @@ public class RabbitMqMessagePublisher : IRabbitMqMessagePublisher, IAsyncDisposa
                 body: body,
                 cancellationToken: ct);
 
-            _logger.LogDebug("Published {MessageType} to {Exchange}/{RoutingKey}",
-                properties.Type, exchange, routingKey);
+            _logger.LogDebugWithCallerInfo("Published {MessageType} to {Exchange}/{RoutingKey}",
+                args: new { properties.Type , exchange, routingKey });
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            _logger.LogError(ex, "Failed to publish to {Exchange}/{RoutingKey}", exchange, routingKey);
+            _logger.LogErrorWithCallerInfo("Failed to publish to {Exchange}/{RoutingKey}", args: new {
+                exchange, routingKey
+            });
             throw new MessagePublishException("Failed to publish message", ex);
         }
     }
@@ -145,7 +148,7 @@ public class RabbitMqMessagePublisher : IRabbitMqMessagePublisher, IAsyncDisposa
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during disposal");
+            _logger.LogErrorWithCallerInfo("Error during disposal", ex);
         }
         finally
         {

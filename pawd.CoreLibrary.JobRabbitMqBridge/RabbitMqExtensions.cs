@@ -32,7 +32,6 @@ public static class RabbitMqExtensions
             return await factory.CreateConnectionAsync();
         });
 
-        // Register ready-to-use connection
         services.AddSingleton(sp => sp.GetRequiredService<Task<IConnection>>().Result);
 
         services.AddScoped<IRabbitMqMessagePublisher, RabbitMqMessagePublisher>();

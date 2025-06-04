@@ -1,10 +1,8 @@
-﻿namespace pawd.CoreLibrary.Logging
-{
-    using System;
-    using System.IO;
-    using System.Runtime.CompilerServices;
-    using Serilog;
+﻿using System.Runtime.CompilerServices;
+using Serilog;
 
+namespace pawd.CoreLibrary.Logging
+{
     public static class LoggerExtensions
     {
         private static string FormatMessageTemplate(
